@@ -1,5 +1,15 @@
-extends layout
+doctype html
+html
+	style
+			#canvas {
+				position: absolute;
+				left: 0; right: 0; top: 0; bottom: 0; 
+				margin: auto;
+			}
 
-block content
-  h1= title
-  p Welcome to #{title}
+	script(src='/socket.io/socket.io.js')
+	script(type='text/javascript').
+		var socket = io.connect('http://localhost:3000');
+		socket.on('onconnected', function( data ) {
+			
+		});
