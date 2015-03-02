@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Space Invaderjs</title>
+		<script src='/socket.io/socket.io.js'></script>
+		<script type='text/javascript' >
+		var socket = io.connect('http://localhost:3000');
+		socket.on('onconnected', function(data) {
+			console.log(data);
+		});
+		</script>
+	</head>
+	<div id="game"></div>
+    <script type="text/javascript" src="/js/crafty-min.js"></script>
+	<script type="text/javascript" src="/js/game.js"></script>
+	<script type="text/javascript" src="/js/components.js"></script>
+	<script>
+	  window.addEventListener('load',Game.start);
+    </script>
+</body>
+</html>
