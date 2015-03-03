@@ -1,9 +1,17 @@
 Game = {
-	
-	start:function(){
-		Crafty.init(500,350, document.getElementById('game'));
-		Crafty.e('Player');
-		Crafty.e('Wall').at(10,10);
+
+	start : function () {
+		Crafty.init(460, 600);
+		Crafty.background('black');
+		Crafty.scene('Loading');
+	},
+
+	placeInvaders : function () {
+		for (var i = 0; i < 5; i++) {
+			for (var j = 0; j < 11; j++) {
+				Crafty.e('Invader').at(j * 32 + 50,i * 30 + 140);
+			}
+		}
 	}
-	
+
 }
