@@ -41,6 +41,7 @@ Crafty.scene('Game', function () {
 	});
 
 	Game.placeInvaders();
+	Game.autoMoveInvaders(Game.directionEnum.RIGHT);
 });
 
 Crafty.scene('Loading', function () {
