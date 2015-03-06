@@ -12,10 +12,36 @@ Crafty.c('Entity', {
 	},
 })
 
+Crafty.c('InvadersRect',{
+	
+	direction : 'e',
+	downMovement : 0,
+	
+	init : function(){
+		this.requires('2D, Entity, Collision')
+		.bind('changeDirection', function (data) {
+			this.direction = data;
+		})
+		.onHit('Wall', function () {
+			if (this.direction === 'e') {
+				Crafty.trigger('changeDirection', 'w');
+			} else if (this.direction === 'w') {
+				Crafty.trigger('changeDirection', 'e');
+			} else {
+				Crafty.trigger('changeDirection', 's');
+			}
+		})
+		.bind('EnterFrame', function () {
+			this.move(this.direction, 1);
+			if(this.direction === 's')
+				downMovement++;
+		});
+	}
+})
+
 Crafty.c('Wall', {
 	init : function () {
-		this.requires('Canvas, Solid, Color, Entity')
-		.color('#F00')
+		this.requires('Canvas, Solid, Entity')
 		.attr({
 			w : 1,
 			h : 500
@@ -76,6 +102,7 @@ Crafty.c('PlayerBullet', {
 			score : Game.game_stuff.score_1
 		});
 		Game.game_stuff.canShoot = true;
+		Game.calculateHitbox();
 	},
 });
 
@@ -88,20 +115,7 @@ Crafty.c('RedShip', {
 Crafty.c('Invader', {
 	direction : 'e',
 	init : function () {
-		this.requires('Entity, DOM, Solid, Delay')
-		.bind('changeDirection', function (data) {
-			this.direction = data;
-		})
-		.bind('EnterFrame', function () {
-			this.move(this.direction, 1);
-			if (this.x + this.w > Game.width()) {
-				Crafty.trigger('changeDirection', 's');
-			} else if (this.x < 0) {
-				Crafty.trigger('changeDirection', 'e');
-			} else {
-				//logica de quando os invaders estiverem descendo
-			}
-		})
+		this.requires('Entity, DOM, Solid, Delay, Collision')
 	},
 
 	invaderType : function (i) {

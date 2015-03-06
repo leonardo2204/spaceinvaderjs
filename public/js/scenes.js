@@ -5,12 +5,22 @@ Crafty.scene('Game', function () {
 			Game.game_stuff.canShoot = false;
 			Crafty.e('PlayerBullet').at(this.x + this.w / 2 - 2, this.y - 8)
 			.bind('EnterFrame', function () {
-				this.move('n',5);
+				this.move('n', 5);
 			});
 		}
-	})
+	}),
+	
+	e = Crafty.e('InvadersRect')
+		.addComponent('SolidHitBox')
+		.attr({
+			h : 140,
+			w : 345,
+			x : 50,
+			y : 140
+		}).debugFill("purple");
 
 	Crafty.e('Wall').at(10, 10);
+	Crafty.e('Wall').at(Game.width() - 10, 10);
 	Crafty.e('Alien');
 	//Crafty.e('RedShip').at(30,100);
 
@@ -52,8 +62,8 @@ Crafty.scene('Game', function () {
 		size : '16px'
 	});
 
-	Game.placeInvaders();
-	Crafty.trigger('changeDirection','e');
+	Game.placeInvaders(e);
+	Crafty.trigger('changeDirection', 'e');
 });
 
 Crafty.scene('Loading', function () {
@@ -62,7 +72,7 @@ Crafty.scene('Loading', function () {
 	.attr({
 		x : 0,
 		y : 320 / 2 - 24,
-		w : 500
+		w : 300
 	});
 
 	Crafty.load({

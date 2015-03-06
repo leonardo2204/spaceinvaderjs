@@ -1,7 +1,5 @@
 Game = {
 
-	invadersArray : new Array(11 * 5),
-
 	game_stuff : {
 		score_1 : 0,
 		score_2 : 0,
@@ -28,14 +26,29 @@ Game = {
 		Crafty.scene('Loading');
 	},
 
-	placeInvaders : function () {
+	placeInvaders : function (e) {
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 11; j++) {
 				var invader = Crafty.e('Invader').at(j * 32 + 50, i * 30 + 140)
 					.invaderType(i);
-				this.invadersArray.push(invader);
+				e.attach(invader);
 			}
 		}
+	},
+	
+	calculateHitbox : function(){
+		var l = _.min(Crafty('InvadersRect')._children,function(invader){
+			return invader.x;
+		});
+		
+		var r = _.max(Crafty('InvadersRect')._children,function(invader){
+			return invader.x;
+		});
+		
+		var b = _.max(Crafty('InvadersRect')._children,function(invader){
+			return invader.y;
+		});
+			
 	},
 
 }
