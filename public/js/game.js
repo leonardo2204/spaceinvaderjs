@@ -11,6 +11,12 @@ Game = {
 		width : 600,
 		height : 460
 	},
+	
+	invaders_score : {
+		'alien_1' : 30,
+		'alien_2' : 20,
+		'alien_3' : 10
+	},
 
 	width : function () {
 		return this.game_screen.height;

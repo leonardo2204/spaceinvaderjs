@@ -87,7 +87,7 @@ Crafty.c('PlayerBullet', {
 		.color('white')
 		.onHit('Invader', this.invaderHit)
 		.bind('EnterFrame', function () {
-			if (this.y - this.h < 0) {
+			if (this.y - this.h < 80) {
 				Game.game_stuff.canShoot = true;
 				this.destroy();
 			}
@@ -97,12 +97,12 @@ Crafty.c('PlayerBullet', {
 	invaderHit : function (invader) {
 		this.destroy();
 		invader[0].obj.destroy();
-		Game.game_stuff.score_1 += 100;
+		Game.game_stuff.score_1 += invader[0].obj.getScore();;
 		Crafty.trigger('updateScore', {
 			score : Game.game_stuff.score_1
 		});
 		Game.game_stuff.canShoot = true;
-		Game.calculateHitbox();
+		//Game.calculateHitbox();
 	},
 });
 
@@ -114,15 +114,26 @@ Crafty.c('RedShip', {
 
 Crafty.c('Invader', {
 	direction : 'e',
+	aliens : ['alien_1', 'alien_2','alien_2', 'alien_3', 'alien_3'],
+	score : 0,
 	init : function () {
-		this.requires('Entity, DOM, Solid, Delay, Collision')
+		this.requires('Entity, DOM, Solid, Delay, Collision, SpriteAnimation')
 	},
 
 	invaderType : function (i) {
-		var aliens = ['alien_1', 'alien_2', 'alien_3', 'alien_4', 'alien_5', 'alien_6'];
-		this.addComponent(aliens[i]);
-
+		this.addComponent(this.aliens[i])
+		.reel('InvaderMovement',1000,0,0,2)
+		.animate('InvaderMovement',-1);
+		this.setScore(i);
 		return this;
 	},
+	
+	setScore : function(i){
+		this.score = Game.invaders_score[this.aliens[i]];
+	},
+	
+	getScore : function(){
+		return this.score;
+	}
 
 });
