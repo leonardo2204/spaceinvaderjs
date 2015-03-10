@@ -8,8 +8,8 @@ Game = {
 	},
 	
 	game_screen : {
-		width : 460,
-		height : 600
+		width : 600,
+		height : 460
 	},
 	
 	invaders_score : {

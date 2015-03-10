@@ -95,11 +95,11 @@ Crafty.c('RedShip', {
 Crafty.c('Bunker', {
 	bunkers : ['bunker_1', 'bunker_2','bunker_3', 'bunker_4'],
 	init : function (){
-		this.requires('Entity, DOM, Solid, bunker_4')
+		this.requires('Entity, DOM, Solid, bunker_1')
 		
 	},
 	
-	invaderType : function (i) {
+	bunkerType : function (i) {
 		this.addComponent(this.bunkers[i])
 		return this;
 	}
