@@ -10,19 +10,15 @@ Crafty.scene('Game', function () {
 		}
 	}),
 
-	e = Crafty.e('InvadersRect,SolidHitBox')
-		.addComponent('')
-		.attr({
-			h : 140,
-			w : 345,
-			x : 50,
-			y : 140
-		})
-		.debugFill("purple");
-
 	Crafty.e('Wall').at(0, 10);
 	Crafty.e('Wall').at(Game.width(), 10);
 	Crafty.e('Alien');
+	
+	Crafty.e('Bunker').at(40,410);
+	Crafty.e('Bunker').at(150,410);
+	Crafty.e('Bunker').at(260,410);
+	Crafty.e('Bunker').at(370,410);
+	
 	//Crafty.e('RedShip').at(30,100);
 
 	Crafty.e('2D, Canvas, Text').attr({
@@ -63,21 +59,20 @@ Crafty.scene('Game', function () {
 		size : '16px'
 	});
 	
-	Game.placeInvaders(e);
-	Crafty.trigger('changeDirection', 'e');
+	Game.placeInvaders();
 });
 
 Crafty.scene('Loading', function () {
-	Crafty.e('2D, DOM, Text')
-	.text('Loading; please wait...')
+	Crafty.e('2D, Canvas, Text')
+	.text('Loading, please wait...')
+	.textColor('white')
 	.attr({
-		x : 0,
-		y : 320 / 2 - 24,
-		w : 300
+		x : Game.width() / 2 - 55,
+		y : Game.height() / 2 - 24
 	});
 
 	Crafty.load({
-		sprite : ["images/invader_1_sprite.png","images/invader_2_sprite.png","images/invader_3_sprite.png", "images/ship.png", "images/shoot.png", "images/redShip.png"]
+		sprite : ["images/invader_1_sprite.png","images/invader_2_sprite.png","images/invader_3_sprite.png", "images/ship.png", "images/shoot.png", "images/redShip.png","images/bunkers_transparent.png"]
 	}, function () {
 		Crafty.sprite(24, 16, 'images/invader_1_sprite.png', {
 			alien_1 : [0, 0]
@@ -102,9 +97,16 @@ Crafty.scene('Loading', function () {
 		Crafty.sprite(52, 26, "images/redShip.png", {
 			redShip : [0, 0]
 		});
+		
+		Crafty.sprite(55, 48, "images/bunkers_transparent.png", {
+			bunker_1 : [0, 0],
+			bunker_2 : [1, 0],
+			bunker_3 : [2, 0],
+			bunker_4 : [3, 0]
+		});
 
+		Crafty.scene('Game');
+		
 	});
-
-	Crafty.scene('Game');
 
 })

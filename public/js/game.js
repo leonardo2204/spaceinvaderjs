@@ -4,12 +4,12 @@ Game = {
 		score_1 : 0,
 		score_2 : 0,
 		canShoot : true,
-		moveDownDistance : 2
+		direction : 'e'
 	},
 	
 	game_screen : {
-		width : 600,
-		height : 460
+		width : 460,
+		height : 600
 	},
 	
 	invaders_score : {
@@ -32,29 +32,13 @@ Game = {
 		Crafty.scene('Loading');
 	},
 
-	placeInvaders : function (e) {
+	placeInvaders : function () {
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 11; j++) {
 				var invader = Crafty.e('Invader').at(j * 32 + 50, i * 30 + 140)
 					.invaderType(i);
-				e.attach(invader);
 			}
 		}
+		Crafty.trigger('changeDirection', 'e');
 	},
-	
-	calculateHitbox : function(){
-		var l = _.min(Crafty('InvadersRect')._children,function(invader){
-			return invader.x;
-		});
-		
-		var r = _.max(Crafty('InvadersRect')._children,function(invader){
-			return invader.x;
-		});
-		
-		var b = _.max(Crafty('InvadersRect')._children,function(invader){
-			return invader.y;
-		});
-			
-	},
-
 }

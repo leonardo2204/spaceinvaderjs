@@ -12,39 +12,20 @@ Crafty.c('Entity', {
 	},
 })
 
-Crafty.c('InvadersRect',{
-	
-	direction : 'e',
-	downMovement : 0,
-	
-	init : function(){
-		this.requires('2D, Entity, Collision')
-		.bind('changeDirection', function (data) {
-			this.direction = data;
-		})
-		.onHit('Wall', function () {
-			if (this.direction === 'e') {
-				Crafty.trigger('changeDirection', 'w');
-			} else if (this.direction === 'w') {
-				Crafty.trigger('changeDirection', 'e');
-			} else {
-				Crafty.trigger('changeDirection', 's');
-			}
-		})
-		.bind('EnterFrame', function () {
-			this.move(this.direction, 1);
-			if(this.direction === 's')
-				downMovement++;
-		});
-	}
-})
-
 Crafty.c('Wall', {
 	init : function () {
-		this.requires('Canvas, Solid, Entity')
+		this.requires('Canvas, Solid, Entity, Collision')
 		.attr({
 			w : 1,
 			h : 500
+		})
+		.checkHits('Invader')
+		.bind('HitOn', function () {
+			if (Game.game_stuff.direction === 'e') {
+				Crafty.trigger('changeDirection', 'w');
+			} else if (Game.game_stuff.direction === 'w') {
+				Crafty.trigger('changeDirection', 'e');
+			}
 		})
 	},
 });
@@ -102,7 +83,6 @@ Crafty.c('PlayerBullet', {
 			score : Game.game_stuff.score_1
 		});
 		Game.game_stuff.canShoot = true;
-		//Game.calculateHitbox();
 	},
 });
 
@@ -112,12 +92,31 @@ Crafty.c('RedShip', {
 	},
 });
 
+Crafty.c('Bunker', {
+	bunkers : ['bunker_1', 'bunker_2','bunker_3', 'bunker_4'],
+	init : function (){
+		this.requires('Entity, DOM, Solid, bunker_4')
+		
+	},
+	
+	invaderType : function (i) {
+		this.addComponent(this.bunkers[i])
+		return this;
+	}
+	
+});
+
 Crafty.c('Invader', {
-	direction : 'e',
 	aliens : ['alien_1', 'alien_2','alien_2', 'alien_3', 'alien_3'],
 	score : 0,
 	init : function () {
-		this.requires('Entity, DOM, Solid, Delay, Collision, SpriteAnimation')
+		this.requires('Entity, DOM, Solid, Delay, SpriteAnimation')
+		.bind('EnterFrame', function () {
+			this.move(Game.game_stuff.direction, 1);
+		}).bind('changeDirection',function(data){
+			Game.game_stuff.direction = data;
+			this.move('s',15);
+		})
 	},
 
 	invaderType : function (i) {
