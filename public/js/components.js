@@ -112,10 +112,10 @@ Crafty.c('Invader', {
 	init : function () {
 		this.requires('Entity, DOM, Solid, Delay, SpriteAnimation')
 		.bind('EnterFrame', function () {
-			this.move(Game.game_stuff.direction, 1);
+			this.move(Game.game_stuff.direction, .3);
 		}).bind('changeDirection',function(data){
 			Game.game_stuff.direction = data;
-			this.move('s',15);
+			this.move('s',10);
 		})
 	},
 
@@ -123,12 +123,8 @@ Crafty.c('Invader', {
 		this.addComponent(this.aliens[i])
 		.reel('InvaderMovement',1000,0,0,2)
 		.animate('InvaderMovement',-1);
-		this.setScore(i);
-		return this;
-	},
-	
-	setScore : function(i){
 		this.score = Game.invaders_score[this.aliens[i]];
+		return this;
 	},
 	
 	getScore : function(){

@@ -35,7 +35,7 @@ Game = {
 	placeInvaders : function () {
 		for (var i = 0; i < 5; i++) {
 			for (var j = 0; j < 11; j++) {
-				var invader = Crafty.e('Invader').at(j * 32 + 50, i * 30 + 140)
+				var invader = Crafty.e('Invader').at(j * 32 + 50, i * 30 + 100)
 					.invaderType(i);
 			}
 		}
