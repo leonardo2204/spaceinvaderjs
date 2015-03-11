@@ -13,6 +13,7 @@ Crafty.c('Entity', {
 })
 
 Crafty.c('Wall', {
+	wall_left_or_right_position : '',
 	init : function () {
 		this.requires('Canvas, Solid, Entity, Collision')
 		.attr({
@@ -28,6 +29,18 @@ Crafty.c('Wall', {
 			}
 		})
 	},
+	
+	setHitboxSide : function(wall_left_or_right_position){
+		this.wall_left_or_right_position = wall_left_or_right_position
+	},
+
+	collideHitbox : function (obj) {
+		if (this.wall_left_or_right_position == 'left')
+			return this.x;
+		else if (this.wall_left_or_right_position == 'right')
+			return this.x - obj._w;
+	},
+
 });
 
 Crafty.c('Player', {
@@ -40,7 +53,7 @@ Crafty.c('Player', {
 		.twoway(5)
 		.onHit('Wall', function (from) {
 			this.attr({
-				x : from[0].obj.x
+				x : from[0].obj.collideHitbox(this)
 			});
 		})
 	},
@@ -78,7 +91,7 @@ Crafty.c('PlayerBullet', {
 	invaderHit : function (invader) {
 		this.destroy();
 		invader[0].obj.destroy();
-		Game.game_stuff.score_1 += invader[0].obj.getScore();;
+		Game.game_stuff.score_1 += invader[0].obj.getScore(); ;
 		Crafty.trigger('updateScore', {
 			score : Game.game_stuff.score_1
 		});
@@ -93,41 +106,40 @@ Crafty.c('RedShip', {
 });
 
 Crafty.c('Bunker', {
-	bunkers : ['bunker_1', 'bunker_2','bunker_3', 'bunker_4'],
-	init : function (){
+	bunkers : ['bunker_1', 'bunker_2', 'bunker_3', 'bunker_4'],
+	init : function () {
 		this.requires('Entity, DOM, Solid, bunker_1')
-		
 	},
-	
+
 	bunkerType : function (i) {
 		this.addComponent(this.bunkers[i])
 		return this;
 	}
-	
+
 });
 
 Crafty.c('Invader', {
-	aliens : ['alien_1', 'alien_2','alien_2', 'alien_3', 'alien_3'],
+	aliens : ['alien_1', 'alien_2', 'alien_2', 'alien_3', 'alien_3'],
 	score : 0,
 	init : function () {
-		this.requires('Entity, DOM, Solid, Delay, SpriteAnimation')
+		this.requires('Entity, DOM, Solid, SpriteAnimation')
 		.bind('EnterFrame', function () {
 			this.move(Game.game_stuff.direction, .3);
-		}).bind('changeDirection',function(data){
+		}).bind('changeDirection', function (data) {
 			Game.game_stuff.direction = data;
-			this.move('s',10);
+			this.move('s', 10);
 		})
 	},
 
 	invaderType : function (i) {
 		this.addComponent(this.aliens[i])
-		.reel('InvaderMovement',1000,0,0,2)
-		.animate('InvaderMovement',-1);
+		.reel('InvaderMovement', 1000, 0, 0, 2)
+		.animate('InvaderMovement', -1);
 		this.score = Game.invaders_score[this.aliens[i]];
 		return this;
 	},
-	
-	getScore : function(){
+
+	getScore : function () {
 		return this.score;
 	}
 

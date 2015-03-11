@@ -11,8 +11,8 @@ Crafty.scene('Game', function () {
 		}
 	}),
 
-	Crafty.e('Wall').at(0, 10);
-	Crafty.e('Wall').at(Game.width(), 10);
+	Crafty.e('Wall').at(0, 10).setHitboxSide('left');
+	Crafty.e('Wall').at(Game.width(), 10).setHitboxSide('right');
 	Crafty.e('Alien');
 
 	Crafty.e('Bunker').at(40, 410);
@@ -111,5 +111,4 @@ Crafty.scene('Loading', function () {
 		Crafty.scene('Game');
 
 	});
-
 })
